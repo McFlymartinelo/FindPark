@@ -4,6 +4,7 @@ import android.*;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.provider.DocumentsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -18,9 +19,18 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+
+import org.w3c.dom.Document;
+
+import java.util.Set;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, ActivityCompat.OnRequestPermissionsResultCallback {
 
@@ -100,7 +110,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         MongoClientURI uri = new MongoClientURI( "mongodb://alexandre:admin@ds155418.mlab.com:55418/findpark" );
         Log.v("uri","" + uri);
         MongoClient mongoClient = new MongoClient(uri);
-        MongoDatabase db = mongoClient.getDatabase(uri.getDatabase());
+        MongoDatabase db = mongoClient.getDatabase("findpark");
         Log.v("db", ""+ db);
+        MongoCollection<org.bson.Document> collection = db.getCollection("pkspotavailable");
+        Log.v("collection", "" + collection);
     }
 }
